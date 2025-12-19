@@ -1,0 +1,178 @@
+{
+    "summary": {
+        "total_students": 50,
+        "at_risk_count": 27,
+        "predicted_completion_rate": "46.0%"
+    },
+    "course_insights": {
+        "overall_difficulty": "Hard",
+        "avg_student_score": 68.4,
+        "avg_retries_per_chapter": 2.5
+    },
+    "action_items": {
+        "high_risk_students": [
+            {
+                "student_id": 5000,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "99.0%",
+                "current_score": 43.01543499283713
+            },
+            {
+                "student_id": 5003,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "97.0%",
+                "current_score": 50.02639596989721
+            },
+            {
+                "student_id": 5004,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "95.0%",
+                "current_score": 48.0473214276183
+            },
+            {
+                "student_id": 5008,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "98.0%",
+                "current_score": 46.8448763970616
+            },
+            {
+                "student_id": 5012,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "93.0%",
+                "current_score": 90.94842842579408
+            },
+            {
+                "student_id": 5013,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "100.0%",
+                "current_score": 44.73368328804548
+            },
+            {
+                "student_id": 5014,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "100.0%",
+                "current_score": 77.2805129451696
+            },
+            {
+                "student_id": 5016,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "94.0%",
+                "current_score": 44.82890631847584
+            },
+            {
+                "student_id": 5017,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "100.0%",
+                "current_score": 31.00080558633957
+            },
+            {
+                "student_id": 5018,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "100.0%",
+                "current_score": 58.34725363298082
+            },
+            {
+                "student_id": 5019,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "96.0%",
+                "current_score": 84.60187070140209
+            },
+            {
+                "student_id": 5020,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "100.0%",
+                "current_score": 37.84355075924891
+            },
+            {
+                "student_id": 5022,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "100.0%",
+                "current_score": 55.617019399483794
+            },
+            {
+                "student_id": 5023,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "89.0%",
+                "current_score": 100.0
+            },
+            {
+                "student_id": 5026,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "100.0%",
+                "current_score": 44.36530840406978
+            },
+            {
+                "student_id": 5027,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "98.0%",
+                "current_score": 29.97260086864287
+            },
+            {
+                "student_id": 5031,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "99.0%",
+                "current_score": 60.87038029646306
+            },
+            {
+                "student_id": 5032,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "100.0%",
+                "current_score": 54.75185825680606
+            },
+            {
+                "student_id": 5034,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "100.0%",
+                "current_score": 78.08984980142407
+            },
+            {
+                "student_id": 5036,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "100.0%",
+                "current_score": 54.61214027171248
+            },
+            {
+                "student_id": 5039,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "100.0%",
+                "current_score": 38.27983266729084
+            },
+            {
+                "student_id": 5040,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "93.0%",
+                "current_score": 100.0
+            },
+            {
+                "student_id": 5041,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "94.0%",
+                "current_score": 61.41700484673143
+            },
+            {
+                "student_id": 5043,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "100.0%",
+                "current_score": 14.40879844611394
+            },
+            {
+                "student_id": 5046,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "100.0%",
+                "current_score": 55.68388861763674
+            },
+            {
+                "student_id": 5047,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "100.0%",
+                "current_score": 48.8512919706077
+            },
+            {
+                "student_id": 5048,
+                "predicted_outcome": "Dropout",
+                "risk_probability": "100.0%",
+                "current_score": 42.38769330124947
+            }
+        ]
+    }
+}
