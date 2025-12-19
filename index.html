@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Learning Intelligence Tool - Student Risk Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --danger-color: #dc2626;
+            --success-color: #16a34a;
+            --warning-color: #ea580c;
+            --light-bg: #f3f4f6;
+            --dark-text: #1f2937;
+            --border-color: #e5e7eb;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--dark-text);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--primary-color);
+        }
+
+        header h1 {
+            color: var(--primary-color);
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        header p {
+            color: #6b7280;
+            font-size: 1.1em;
+        }
+
+        /* Main Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        /* Upload Section */
+        .upload-section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .upload-section h2 {
+            color: var(--dark-text);
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+            border: 2px dashed var(--primary-color);
+            border-radius: 8px;
+            cursor: pointer;
+            background: #f0f7ff;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .file-input-label:hover {
+            background: #e0f0ff;
+            border-color: var(--secondary-color);
+        }
+
+        .file-input-label.dragging {
+            background: #c9e5ff;
+            border-color: var(--secondary-color);
+            transform: scale(1.02);
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .file-name {
+            margin-top: 10px;
+            padding: 10px;
+            background: var(--light-bg);
+            border-radius: 6px;
+            font-size: 0.9em;
+            color: #6b7280;
+            word-break: break-all;
+            min-height: 20px;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            width: 100%;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: #f0f7ff;
+        }
+
+        .btn-export {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .btn-export:hover:not(:disabled) {
+            background: #15803d;
+        }
+
+        .btn-download {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .btn-download:hover:not(:disabled) {
+            background: #c2410c;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-size: 0.9em;
+            line-height: 1.5;
+            color: #0c4a6e;
+        }
+
+        .sample-columns {
+            background: #f9fafb;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+        }
+
+        /* Results Section */
+        .results-section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            min-height: 300px;
+        }
+
+        .results-section.hidden {
+            display: none;
+        }
+
+        .results-section h2 {
+            color: var(--dark-text);
+            margin-bottom: 25px;
+            font-size: 1.5em;
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .metric-card.risk {
+            border-left-color: var(--danger-color);
+            background: linear-gradient(135deg, #ffe0e0 0%, #ffc2c2 100%);
+        }
+
+        .metric-card.success {
+            border-left-color: var(--success-color);
+            background: linear-gradient(135deg, #e0ffe0 0%, #c2ffc2 100%);
+        }
+
+        .metric-card.warning {
+            border-left-color: var(--warning-color);
+            background: linear-gradient(135deg, #ffeddb 0%, #ffd4a3 100%);
+        }
+
+        .metric-label {
+            font-size: 0.9em;
+            color: #6b7280;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .metric-value {
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--dark-text);
+            word-break: break-word;
+        }
+
+        /* Table Styles */
+        .risk-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+
+        .risk-table-wrapper {
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .risk-table thead {
+            background: var(--light-bg);
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .risk-table th {
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark-text);
+            white-space: nowrap;
+        }
+
+        .risk-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .risk-table tbody tr:hover {
+            background: #fafafa;
+        }
+
+        .risk-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .risk-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .risk-badge.high {
+            background: #fee2e2;
+            color: var(--danger-color);
+        }
+
+        .risk-badge.low {
+            background: #d1fae5;
+            color: var(--success-color);
+        }
+
+        .score-cell {
+            font-weight: 600;
+        }
+
+        .score-cell.low {
+            color: var(--danger-color);
+        }
+
+        .score-cell.medium {
+            color: var(--warning-color);
+        }
+
+        .score-cell.high {
+            color: var(--success-color);
+        }
+
+        /* Status Messages */
+        .status-message {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .status-message.loading {
+            background: #eff6ff;
+            color: var(--primary-color);
+        }
+
+        .status-message.success {
+            background: #dcfce7;
+            color: var(--success-color);
+        }
+
+        .status-message.error {
+            background: #fee2e2;
+            color: var(--danger-color);
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 3px solid rgba(37, 99, 235, 0.3);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Difficulty Section */
+        .difficulty-section {
+            background: var(--light-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 25px;
+        }
+
+        .difficulty-section h3 {
+            color: var(--dark-text);
+            margin-bottom: 15px;
+        }
+
+        .difficulty-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .difficulty-item {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .difficulty-item-label {
+            font-size: 0.9em;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .difficulty-item-value {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--dark-text);
+        }
+
+        /* Export Section */
+        .export-section {
+            background: var(--light-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 25px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .upload-section {
+                position: relative;
+                top: 0;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .risk-table {
+                font-size: 0.85em;
+            }
+
+            .risk-table th,
+            .risk-table td {
+                padding: 8px;
+            }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #9ca3af;
+        }
+
+        .empty-state-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            color: #6b7280;
+            margin-top: 30px;
+            box-shadow: var(--shadow);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>🎓 AI Learning Intelligence Tool</h1>
+            <p>Predict student dropout risks and analyze course difficulty using advanced machine learning</p>
+        </header>
+
+        <!-- Main Layout -->
+        <div class="main-layout">
+            <!-- Left: Upload Section -->
+            <aside class="upload-section">
+                <h2>📁 Upload Data</h2>
+
+                <div class="file-input-wrapper">
+                    <label class="file-input-label" for="csvFile" id="dropZone">
+                        <span>📥</span>
+                        <span id="dropText">Drag & drop CSV file or click to select</span>
+                    </label>
+                    <input type="file" id="csvFile" accept=".csv" />
+                </div>
+
+                <div class="file-name" id="fileName">No file selected</div>
+
+                <div class="button-group">
+                    <button class="btn-primary" id="analyzeBtn" disabled>
+                        🚀 Analyze Data
+                    </button>
+                    <button class="btn-secondary" id="sampleBtn">
+                        📋 View Sample CSV
+                    </button>
+                </div>
+
+                <div class="info-box">
+                    <strong>📋 Required Columns:</strong>
+                    <div class="sample-columns">
+                        • student_id<br>
+                        • avg_score<br>
+                        • avg_time_spent<br>
+                        • chapter_retries
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Right: Results Section -->
+            <main class="results-section hidden" id="resultsSection">
+                <div id="statusMessage"></div>
+                <div id="resultsContent"></div>
+            </main>
+
+            <!-- Initial Empty State -->
+            <main class="results-section" id="emptyState">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📊</div>
+                    <h3>Ready to Analyze</h3>
+                    <p>Upload a CSV file to begin student risk analysis</p>
+                </div>
+            </main>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>🔐 Powered by Random Forest Classifier | 📈 Data Privacy: All processing is secure and confidential</p>
+        </footer>
+    </div>
+
+    <script>
+        // ============================================================
+        // APPLICATION STATE & CONFIGURATION
+        // ============================================================
+        const API_BASE_URL = 'http://localhost:5000';
+        let currentFile = null;
+        let analysisResults = null;
+
+        // ============================================================
+        // UTILITY FUNCTIONS
+        // ============================================================
+
+        /**
+         * Show status message with animation
+         */
+        function showStatus(message, type = 'loading') {
+            const statusDiv = document.getElementById('statusMessage');
+            const spinner = type === 'loading' ? '<span class="spinner"></span>' : '';
+            const icon = {
+                'success': '✓',
+                'error': '✗',
+                'loading': ''
+            }[type] || '•';
+
+            statusDiv.innerHTML = `
+                <div class="status-message ${type}">
+                    ${spinner}
+                    <span>${message}</span>
+                </div>
+            `;
+            statusDiv.style.display = 'block';
+        }
+
+        /**
+         * Display error alert
+         */
+        function showError(message) {
+            showStatus(message, 'error');
+            setTimeout(() => {
+                document.getElementById('statusMessage').style.display = 'none';
+            }, 5000);
+        }
+
+        /**
+         * Format JSON into a downloadable blob
+         */
+        function downloadJSON(data, filename) {
+            const json = JSON.stringify(data, null, 2);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        /**
+         * Download CSV file
+         */
+        function downloadCSV(filename = 'sample.csv') {
+            fetch(`${API_BASE_URL}/api/sample-csv`)
+                .then(response => response.text())
+                .then(csv => {
+                    const blob = new Blob([csv], { type: 'text/csv' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = filename;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                })
+                .catch(error => showError('Failed to download sample CSV'));
+        }
+
+        /**
+         * Format percentage risk label
+         */
+        function formatRiskLabel(probability) {
+            const percent = parseFloat(probability);
+            if (percent > 80) return 'high';
+            if (percent > 50) return 'medium';
+            return 'low';
+        }
+
+        // ============================================================
+        // FILE HANDLING
+        // ============================================================
+
+        const csvInput = document.getElementById('csvFile');
+        const fileNameDiv = document.getElementById('fileName');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const dropZone = document.getElementById('dropZone');
+
+        // File input change handler
+        csvInput.addEventListener('change', (e) => {
+            currentFile = e.target.files[0];
+            updateFileDisplay();
+        });
+
+        // Drag and drop handlers
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragging');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragging');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragging');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                csvInput.files = files;
+                currentFile = files[0];
+                updateFileDisplay();
+            }
+        });
+
+        // Update file display
+        function updateFileDisplay() {
+            if (currentFile) {
+                fileNameDiv.textContent = `✓ ${currentFile.name} (${(currentFile.size / 1024).toFixed(2)} KB)`;
+                analyzeBtn.disabled = false;
+            } else {
+                fileNameDiv.textContent = 'No file selected';
+                analyzeBtn.disabled = true;
+            }
+        }
+
+        // Sample CSV button
+        document.getElementById('sampleBtn').addEventListener('click', () => {
+            downloadCSV('sample_students.csv');
+        });
+
+        // ============================================================
+        // ANALYSIS ENGINE
+        // ============================================================
+
+        /**
+         * Main analysis function
+         * Sends file to backend and displays results
+         */
+        async function analyzeData() {
+            if (!currentFile) {
+                showError('Please select a file first');
+                return;
+            }
+
+            showStatus('Processing your data... Please wait', 'loading');
+            analyzeBtn.disabled = true;
+
+            const formData = new FormData();
+            formData.append('file', currentFile);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/predict`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Analysis failed');
+                }
+
+                analysisResults = await response.json();
+
+                if (analysisResults.success) {
+                    displayResults(analysisResults);
+                    showStatus('✓ Analysis complete! Results are ready below', 'success');
+                } else {
+                    throw new Error(analysisResults.error);
+                }
+            } catch (error) {
+                showError(`Error: ${error.message}`);
+            } finally {
+                analyzeBtn.disabled = false;
+            }
+        }
+
+        /**
+         * Display analysis results
+         */
+        function displayResults(results) {
+            const emptyState = document.getElementById('emptyState');
+            const resultsSection = document.getElementById('resultsSection');
+            const resultsContent = document.getElementById('resultsContent');
+
+            emptyState.classList.add('hidden');
+            resultsSection.classList.remove('hidden');
+
+            const { summary, course_insights, high_risk_students } = results;
+
+            // Build metrics cards
+            const metricsHTML = `
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">Total Students</div>
+                        <div class="metric-value">${summary.total_students}</div>
+                    </div>
+                    <div class="metric-card risk">
+                        <div class="metric-label">Students at Risk</div>
+                        <div class="metric-value">${summary.at_risk_count}</div>
+                    </div>
+                    <div class="metric-card success">
+                        <div class="metric-label">Predicted Completion Rate</div>
+                        <div class="metric-value">${summary.predicted_completion_rate}</div>
+                    </div>
+                </div>
+            `;
+
+            // Build risk table
+            let riskTableHTML = `
+                <h3>⚠️ High Risk Students</h3>
+                <div class="risk-table-wrapper">
+                    <table class="risk-table">
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Predicted Outcome</th>
+                                <th>Risk Probability</th>
+                                <th>Current Score</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            if (high_risk_students.length === 0) {
+                riskTableHTML += `
+                    <tr>
+                        <td colspan="5" style="text-align: center; color: #6b7280; padding: 30px;">
+                            ✓ No high-risk students detected!
+                        </td>
+                    </tr>
+                `;
+            } else {
+                high_risk_students.forEach(student => {
+                    const riskLevel = formatRiskLabel(student.risk_probability);
+                    const scoreLevel = student.current_score > 70 ? 'high' : 
+                                     student.current_score > 50 ? 'medium' : 'low';
+
+                    riskTableHTML += `
+                        <tr>
+                            <td>${student.student_id}</td>
+                            <td>${student.predicted_outcome}</td>
+                            <td><span class="risk-badge ${riskLevel}">${student.risk_probability}</span></td>
+                            <td><span class="score-cell ${scoreLevel}">${student.current_score.toFixed(2)}</span></td>
+                            <td>⚠️ Requires Intervention</td>
+                        </tr>
+                    `;
+                });
+            }
+
+            riskTableHTML += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            // Build difficulty section
+            const difficultyHTML = `
+                <div class="difficulty-section">
+                    <h3>📊 Course Difficulty Analysis</h3>
+                    <div class="difficulty-metrics">
+                        <div class="difficulty-item">
+                            <div class="difficulty-item-label">Overall Difficulty</div>
+                            <div class="difficulty-item-value">${course_insights.overall_difficulty}</div>
+                        </div>
+                        <div class="difficulty-item">
+                            <div class="difficulty-item-label">Average Student Score</div>
+                            <div class="difficulty-item-value">${course_insights.avg_student_score.toFixed(1)}%</div>
+                        </div>
+                        <div class="difficulty-item">
+                            <div class="difficulty-item-label">Avg Retries per Chapter</div>
+                            <div class="difficulty-item-value">${course_insights.avg_retries_per_chapter.toFixed(1)}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Build export section
+            const exportHTML = `
+                <div class="export-section">
+                    <button class="btn-export" onclick="exportReport()">
+                        💾 Export as JSON
+                    </button>
+                    <button class="btn-download" onclick="downloadReport()">
+                        📥 Download Report
+                    </button>
+                </div>
+            `;
+
+            resultsContent.innerHTML = metricsHTML + riskTableHTML + difficultyHTML + exportHTML;
+        }
+
+        /**
+         * Export analysis report as JSON
+         */
+        async function exportReport() {
+            if (!analysisResults) {
+                showError('No analysis results to export');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/export-report`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(analysisResults)
+                });
+
+                const report = await response.json();
+                downloadJSON(report, `ai-learning-report-${Date.now()}.json`);
+                showStatus('✓ Report exported successfully', 'success');
+                setTimeout(() => {
+                    document.getElementById('statusMessage').style.display = 'none';
+                }, 3000);
+            } catch (error) {
+                showError('Failed to export report');
+            }
+        }
+
+        /**
+         * Download report as JSON (alternative method)
+         */
+        function downloadReport() {
+            if (analysisResults) {
+                downloadJSON(analysisResults, `student-analysis-${new Date().toISOString().split('T')[0]}.json`);
+            }
+        }
+
+        // ============================================================
+        // EVENT LISTENERS
+        // ============================================================
+
+        analyzeBtn.addEventListener('click', analyzeData);
+
+        // Allow Enter key to trigger analysis
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !analyzeBtn.disabled && e.ctrlKey) {
+                analyzeData();
+            }
+        });
+    </script>
+</body>
+</html>
